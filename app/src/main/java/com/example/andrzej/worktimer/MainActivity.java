@@ -16,6 +16,7 @@ public class MainActivity extends ActionBarActivity {
 
     private static final int hours_in_milliseconds = 3600*1000;
     private static final String FORMAT = "%02d:%02d:%02d";
+    CountDownTimer workTimer;
     TextView text;
 
     @Override
@@ -25,27 +26,31 @@ public class MainActivity extends ActionBarActivity {
 
         text = (TextView)findViewById(R.id.text_message);
 
-
         Button start_button = (Button)findViewById(R.id.start_button);
+
+        workTimer = new CountDownTimer(8*hours_in_milliseconds, 1000) {
+            public void onTick(long millisUntilFinished) {
+                text.setText("Time remaining: " +
+                        String.format(FORMAT, TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
+                                TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) -
+                                        TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
+                                TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
+                                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+            }
+
+            public void onFinish() {
+                text.setText("done!");
+            }
+        };
 
         start_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new CountDownTimer(8*hours_in_milliseconds, 1000) {
 
-                    public void onTick(long millisUntilFinished) {
-                        text.setText("seconds remaining: " +
-                                String.format(FORMAT, TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
-                                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) -
-                                                TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
-                                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
-                                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
-                    }
-
-                    public void onFinish() {
-                        text.setText("done!");
-                    }
-                }.start();
+                if (workTimer != null) {
+                    workTimer.cancel();
+                }
+                workTimer.start();
             }
         });
     }
