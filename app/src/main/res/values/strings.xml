@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Work Timer</string>
+
+    <string name="hello_msg">Press button to start!</string>
+    <string name="start_button">START</string>
+    <string name="action_settings">Settings</string>
+</resources>
