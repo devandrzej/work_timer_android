@@ -26,7 +26,7 @@ public class MainActivity extends ActionBarActivity {
 
         text = (TextView)findViewById(R.id.text_message);
 
-        Button start_button = (Button)findViewById(R.id.start_button);
+        Button timer_button = (Button)findViewById(R.id.start_button);
 
         workTimer = new CountDownTimer(8*hours_in_milliseconds, 1000) {
             public void onTick(long millisUntilFinished) {
@@ -43,7 +43,7 @@ public class MainActivity extends ActionBarActivity {
             }
         };
 
-        start_button.setOnClickListener(new View.OnClickListener() {
+        timer_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

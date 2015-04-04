@@ -24,4 +24,13 @@
         android:layout_below="@+id/text_message"
         android:layout_centerHorizontal="true" />
 
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="STOP"
+        android:id="@+id/stop_button"
+        android:layout_below="@+id/start_button"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
