@@ -33,4 +33,14 @@
         android:layout_below="@+id/start_button"
         android:layout_centerHorizontal="true" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Not connected to wifi!"
+        android:id="@+id/text_nerwork_id"
+        android:layout_below="@+id/stop_button"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="67dp" />
+
 </RelativeLayout>

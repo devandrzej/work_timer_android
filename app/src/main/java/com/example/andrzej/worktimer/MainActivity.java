@@ -1,6 +1,15 @@
 package com.example.andrzej.worktimer;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.IntentFilter;
 import android.content.res.Resources;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.CountDownTimer;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -8,25 +17,37 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import java.util.concurrent.TimeUnit;
 
 
 public class MainActivity extends ActionBarActivity {
 
-    private static final int hours_in_milliseconds = 3600*1000;
+    private static final int hours_in_milliseconds = /*3600**/1000;
+    private static final int MY_NOTIFICATION_ID = 1;
     private static final String FORMAT = "%02d:%02d:%02d";
+
     CountDownTimer workTimer;
     TextView text;
+    TextView wifi_text;
     Button timer_button;
     Button stop_button;
+
+    private BroadcastReceiver receiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        wifi_text = (TextView)findViewById(R.id.text_nerwork_id);
+
+        /*receiver = new WifiMonitor(wifi_text);
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+
+        registerReceiver(receiver, filter);*/
 
         text = (TextView)findViewById(R.id.text_message);
 
@@ -46,7 +67,8 @@ public class MainActivity extends ActionBarActivity {
             }
 
             public void onFinish() {
-                text.setText("Done! Go home!");
+                notify_done();
+                stop_button();
             }
         };
 
@@ -55,11 +77,7 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 if (workTimer != null) {
                     workTimer.cancel();
-                    timer_button.setEnabled(true);
-                    stop_button.setEnabled(false);
-
-                    Resources res = getResources();
-                    text.setText(res.getString(R.string.hello_msg));
+                    stop_button();
                 }
             }
         });
@@ -95,5 +113,32 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void notify_done() {
+        NotificationManager notificationManager =
+                (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Context context = getApplicationContext();
+
+        String notificationTitle = "Work time is over! Go home!";
+
+        Notification notification = new Notification.Builder(context)
+                .setContentTitle(notificationTitle)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .build();
+
+        notification.defaults |= Notification.DEFAULT_VIBRATE;
+        notification.defaults |= Notification.DEFAULT_SOUND;
+
+        notificationManager.notify(MY_NOTIFICATION_ID, notification);
+    }
+
+    private void stop_button() {
+        timer_button.setEnabled(true);
+        stop_button.setEnabled(false);
+
+        Resources res = getResources();
+        text.setText(res.getString(R.string.hello_msg));
     }
 }
