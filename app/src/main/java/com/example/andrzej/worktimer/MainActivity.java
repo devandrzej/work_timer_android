@@ -42,12 +42,12 @@ public class MainActivity extends ActionBarActivity {
 
         wifi_text = (TextView)findViewById(R.id.text_nerwork_id);
 
-        /*receiver = new WifiMonitor(wifi_text);
+        receiver = new WifiMonitor(wifi_text);
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
 
-        registerReceiver(receiver, filter);*/
+        registerReceiver(receiver, filter);
 
         text = (TextView)findViewById(R.id.text_message);
 
